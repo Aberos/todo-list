@@ -15,6 +15,7 @@ namespace TodoList.Api.Controllers;
 
 [Route("[controller]")]
 [ApiController]
+[Authorize]
 public class TaskController : BaseController
 {
     public TaskController(IMediator mediator) : base(mediator)
@@ -22,7 +23,6 @@ public class TaskController : BaseController
     }
 
     [HttpPost]
-    [AllowAnonymous]
     public async Task<ActionResult> Create([FromBody] CreateTaskRequest request, CancellationToken cancellationToken)
     {
         try
@@ -41,7 +41,6 @@ public class TaskController : BaseController
     }
 
     [HttpPut("{taskId}")]
-    [AllowAnonymous]
     public async Task<ActionResult> Update(string taskId, [FromBody] UpdateTaskRequest request, CancellationToken cancellationToken)
     {
         try
@@ -61,7 +60,6 @@ public class TaskController : BaseController
     }
 
     [HttpDelete("{taskId}")]
-    [AllowAnonymous]
     public async Task<ActionResult> Create(string taskId, CancellationToken cancellationToken)
     {
         try
@@ -80,7 +78,6 @@ public class TaskController : BaseController
     }
 
     [HttpGet("{taskId}")]
-    [AllowAnonymous]
     public async Task<ActionResult<Domain.Entities.Task>> GetById(string taskId, CancellationToken cancellationToken)
     {
         try
@@ -99,7 +96,6 @@ public class TaskController : BaseController
     }
 
     [HttpGet]
-    [AllowAnonymous]
     public async Task<ActionResult<FilterResponse<Domain.Entities.Task>>> GetFilterList([FromQuery] GetFilteredTaskListRequest request, CancellationToken cancellationToken)
     {
         try
