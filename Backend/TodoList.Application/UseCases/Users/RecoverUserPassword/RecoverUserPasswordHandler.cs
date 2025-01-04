@@ -38,7 +38,7 @@ public class RecoverUserPasswordHandler : IRequestHandler<RecoverUserPasswordReq
             await _unitOfWork.CommitAsync(cancellationToken);
 
             var bodyRecoveryPasswordEmail = RecoveryPasswordTemplate.GetTemplate(newPassword);
-            await _emailService.Send(userRecoveryPassword.Email, bodyRecoveryPasswordEmail);
+            await _emailService.Send(userRecoveryPassword.Email, "Recuperação de Senha", bodyRecoveryPasswordEmail, true, cancellationToken);
         }
     }
 }

@@ -8,7 +8,7 @@ using TodoList.Domain.Repositories;
 
 namespace TodoList.Application.UseCases.Users.SignInUser;
 
-public class SignInUserHandler : IRequestHandler<SignInUserRequest, UserSignInResponse>
+public class SignInUserHandler : IRequestHandler<SignInUserRequest, SignInUserResponse>
 {
     private readonly IUserRepository _userRepository;
     private readonly IValidator<SignInUserRequest> _validatorSignInUser;
@@ -21,7 +21,7 @@ public class SignInUserHandler : IRequestHandler<SignInUserRequest, UserSignInRe
         _tokenService = tokenService;
     }
 
-    public async Task<UserSignInResponse> Handle(SignInUserRequest request, CancellationToken cancellationToken)
+    public async Task<SignInUserResponse> Handle(SignInUserRequest request, CancellationToken cancellationToken)
     {
         var user = await _userRepository.GetByEmail(request.Email, cancellationToken)
             ?? throw new ValidationException(UserConstantExceptions.EmailPasswordInvalid);
@@ -32,6 +32,6 @@ public class SignInUserHandler : IRequestHandler<SignInUserRequest, UserSignInRe
 
         var token = await _tokenService.GenerateUserToken(user);
 
-        return new UserSignInResponse(token, user.Name, user.Email);
+        return new SignInUserResponse(token, user.Name, user.Email);
     }
 }

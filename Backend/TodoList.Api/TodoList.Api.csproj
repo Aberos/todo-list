@@ -11,7 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\TodoList.Application\TodoList.Application.csproj" />
+    <ProjectReference Include="..\TodoList.Persistence\TodoList.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

@@ -2,5 +2,5 @@
 
 public interface IEmailService
 {
-    Task Send(string email, string body, bool html = true);
+    Task Send(string email, string subject, string body, bool isBodyHtml, CancellationToken cancellationToken);
 }

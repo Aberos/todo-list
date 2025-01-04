@@ -1,4 +1,5 @@
 ﻿namespace TodoList.Domain.Entities;
+using TaskStatus = Enums.TaskStatus;
 
 public class Task : EntityBase
 {
