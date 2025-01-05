@@ -17,7 +17,7 @@ app.ConfigureInfrastructureApp();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.MapOpenApi("/openapi");
 }
 
 app.UseHttpsRedirection();

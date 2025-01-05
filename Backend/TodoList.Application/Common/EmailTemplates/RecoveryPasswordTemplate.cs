@@ -21,9 +21,9 @@ public static class RecoveryPasswordTemplate
                     <p>Recomendamos que você altere esta senha assim que possível em sua conta.</p>
                     <p>Se você não solicitou a recuperação de senha, por favor entre em contato com nossa equipe.</p>
                     <p>Atenciosamente,</p>
-                    <p><strong>Equipe [Nome da Empresa]</strong></p>
+                    <p><strong>Equipe Todo List</strong></p>
                     <hr style=""border: 0; border-top: 1px solid #ddd; margin: 20px 0;"">
-                    <p style=""font-size: 12px; text-align: center; color: #aaa;"">&copy; 2025 [Nome da Empresa]. Todos os direitos reservados.</p>
+                    <p style=""font-size: 12px; text-align: center; color: #aaa;"">&copy; 2025 Todo List. Todos os direitos reservados.</p>
                 </div>
             </body>
             </html>";

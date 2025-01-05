@@ -11,6 +11,7 @@ using TodoList.Domain.Repositories;
 using TodoList.Domain.Settings;
 using TodoList.Persistence.Contexts;
 using TodoList.Persistence.Repositories;
+using TodoList.Persistence.Services;
 
 namespace TodoList.Persistence;
 
@@ -19,10 +20,15 @@ public static class ServiceExtensions
     public static void ConfigureInfrastructureServices(this IServiceCollection services,
           IConfiguration configuration)
     {
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         services.AddDbContext<TodoContext>(options => options.UseNpgsql(configuration["ConnectionStrings:TodoDB"]));
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ITaskRepository, TaskRepository>();
+        services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IActiveUser, ActiveUser>();
+        services.AddScoped<IEmailService, EmailService>();
+        services.AddHttpContextAccessor();
 
         services.Configure<TokenSettings>(configuration.GetSection("TokenSettings"));
         services.AddSingleton(resolver => resolver.GetRequiredService<IOptions<TokenSettings>>().Value);
@@ -46,9 +52,6 @@ public static class ServiceExtensions
                 ValidateAudience = false
             };
         });
-
-        services.AddHttpContextAccessor();
-        services.AddScoped<IActiveUser, ActiveUser>();
     }
 
     public static void ConfigureInfrastructureApp(this IApplicationBuilder app)
@@ -58,9 +61,6 @@ public static class ServiceExtensions
 
         using var scope = app.ApplicationServices.CreateScope();
         var todoContext = scope.ServiceProvider.GetRequiredService<TodoContext>();
-        if (todoContext.Database.EnsureCreated())
-        {
-            todoContext.Database.Migrate();
-        }
+        todoContext.Database.EnsureCreated();
     }
 }

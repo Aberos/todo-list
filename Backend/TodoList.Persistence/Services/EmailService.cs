@@ -22,7 +22,8 @@ public class EmailService : IEmailService
         {
             Port = _settings.SmtpPort,
             Credentials = new NetworkCredential(_settings.SmtpUser, _settings.SmtpPassword),
-            EnableSsl = true
+            EnableSsl = true,
+            Timeout = 30000
         };
 
         var mailMessage = new MailMessage(fromAddress, toAddress)

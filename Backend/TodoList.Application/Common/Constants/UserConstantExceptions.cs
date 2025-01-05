@@ -12,5 +12,5 @@ public static class UserConstantExceptions
     public static string NewPasswordMinimumLength => "Nova senha deve ser maior ou igual a {MinLength} caracter(es).";
     public static string EmailPasswordInvalid => "Email e senha inválidos.";
     public static string UserInvalid => "Usuário inválido.";
-    public static string PasswordInvalid => "Senha inválido.";
+    public static string PasswordInvalid => "Senha inválida.";
 }

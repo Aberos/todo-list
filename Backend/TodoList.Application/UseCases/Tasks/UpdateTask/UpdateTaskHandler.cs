@@ -24,11 +24,12 @@ public class UpdateTaskHandler : IRequestHandler<UpdateTaskRequest>
         if (!validatorUpdateTaskResult.IsValid)
             throw new ValidationException(validatorUpdateTaskResult.Errors);
 
-        var task = await _taskRepository.GetById(request.Id, cancellationToken) ??
+        var task = await _taskRepository.GetById(request.Id!, cancellationToken) ??
             throw new ValidationException(TaskConstantExceptions.NotFound);
 
-        task.Title = request.Title;
-        task.Description = request.Description;
+        task.Title = request.Title!;
+        task.Description = request.Description!;
+        task.Status = request.Status ?? task.Status;
         _taskRepository.Update(task);
         await _unitOfWork.CommitAsync(cancellationToken);
     }

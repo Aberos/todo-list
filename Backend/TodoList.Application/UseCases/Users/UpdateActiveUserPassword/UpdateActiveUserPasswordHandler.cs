@@ -32,11 +32,13 @@ public class UpdateActiveUserPasswordHandler : IRequestHandler<UpdateActiveUserP
         var activeUser = await _userRepository.GetById(_activeUser.Id, cancellationToken)
             ?? throw new ValidationException(UserConstantExceptions.PasswordInvalid);
 
-        var encryptedRequestPassword = UserHelper.EncryptPassword(request.NewPassword);
+        var encryptedRequestPassword = UserHelper.EncryptPassword(request.Password);
         if (activeUser.Password != encryptedRequestPassword)
             throw new ValidationException(UserConstantExceptions.PasswordInvalid);
 
-        activeUser.Password = encryptedRequestPassword;
+        var encryptedRequestNewPassword = UserHelper.EncryptPassword(request.NewPassword);
+
+        activeUser.Password = encryptedRequestNewPassword;
         _userRepository.Update(activeUser);
         await _unitOfWork.CommitAsync(cancellationToken);
     }

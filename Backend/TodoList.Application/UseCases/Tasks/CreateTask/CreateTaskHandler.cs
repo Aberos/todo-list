@@ -26,8 +26,9 @@ public class CreateTaskHandler : IRequestHandler<CreateTaskRequest>
 
         var newTask = new Domain.Entities.Task
         {
-            Title = request.Title,
+            Title = request.Title!,
             Description = request.Description,
+            Status = request.Status ?? Domain.Enums.TaskStatus.Pending
         };
 
         _taskRepository.Create(newTask);

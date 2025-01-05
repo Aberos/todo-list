@@ -50,8 +50,7 @@ public class TaskRepository : ITaskRepository
 
         var totalCount = await query.CountAsync(cancellationToken);
 
-        var data = await _context.Tasks
-            .OrderBy(x => x.CreatedDate)
+        var data = await query.OrderBy(x => x.CreatedDate)
             .Skip(skip)
             .Take(take)
             .ToListAsync(cancellationToken);

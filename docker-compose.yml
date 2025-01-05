@@ -1,0 +1,17 @@
+
+services:
+  postgresql:
+    image: postgres:latest
+    ports:
+      - 5432:5432
+    volumes:
+      - postgresql_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=todouser
+      - POSTGRES_DB=tododb
+      - POSTGRES_PASSWORD=102030
+    restart: always
+
+volumes:
+  postgresql_data:
+    driver: local

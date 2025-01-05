@@ -23,6 +23,10 @@ public class SignInUserHandler : IRequestHandler<SignInUserRequest, SignInUserRe
 
     public async Task<SignInUserResponse> Handle(SignInUserRequest request, CancellationToken cancellationToken)
     {
+        var validatorSignInUserResult = _validatorSignInUser.Validate(request);
+        if (!validatorSignInUserResult.IsValid)
+            throw new ValidationException(validatorSignInUserResult.Errors);
+
         var user = await _userRepository.GetByEmail(request.Email, cancellationToken)
             ?? throw new ValidationException(UserConstantExceptions.EmailPasswordInvalid);
 

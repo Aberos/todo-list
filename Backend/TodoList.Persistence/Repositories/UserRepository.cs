@@ -15,6 +15,7 @@ public class UserRepository : IUserRepository
 
     public void Create(User entity)
     {
+        entity.CreatedDate = DateTime.Now;
         _context.Users.Add(entity);
     }
 
