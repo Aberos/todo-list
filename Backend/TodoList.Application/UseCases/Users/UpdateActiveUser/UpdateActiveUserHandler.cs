@@ -31,7 +31,7 @@ public class UpdateActiveUserHandler : IRequestHandler<UpdateActiveUserRequest>
         var activeUser = await _userRepository.GetById(_activeUser.Id, cancellationToken)
             ?? throw new ValidationException(UserConstantExceptions.UserInvalid);
 
-        activeUser.Name = _activeUser.Name;
+        activeUser.Name = request.Name;
         _userRepository.Update(activeUser);
         await _unitOfWork.CommitAsync(cancellationToken);
     }

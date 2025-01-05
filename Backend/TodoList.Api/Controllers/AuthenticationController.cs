@@ -115,4 +115,11 @@ public class AuthenticationController : BaseController
             return BadRequest(ConstantExceptions.DefaultError);
         }
     }
+
+    [HttpGet("validate")]
+    [Authorize]
+    public ActionResult Validate()
+    {
+        return Ok();
+    }
 }

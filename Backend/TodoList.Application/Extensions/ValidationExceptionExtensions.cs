@@ -9,19 +9,21 @@ public static class ValidationExceptionExtensions
     {
         var errors = new List<ValidationError>();
 
-        if(!string.IsNullOrEmpty(exception.Message))
-            errors.Add(new ValidationError { PropertyName = string.Empty, ErrorMessage = exception.Message });
-
-        if (exception?.Errors is null)
-            return errors;
-
-        foreach (var error in exception.Errors)
+        if (exception?.Errors?.Any() ?? false)
         {
-            errors.Add(new ValidationError
+            foreach (var error in exception.Errors)
             {
-                PropertyName = error.PropertyName,
-                ErrorMessage = error.ErrorMessage
-            });
+                errors.Add(new ValidationError
+                {
+                    PropertyName = error.PropertyName,
+                    ErrorMessage = error.ErrorMessage
+                });
+            }
+        }
+        else
+        {
+            if (!string.IsNullOrEmpty(exception?.Message))
+                errors.Add(new ValidationError { PropertyName = string.Empty, ErrorMessage = exception.Message });
         }
 
         return errors;
