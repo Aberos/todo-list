@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
-import { UpdateAuthUserRequest, updateAuthUserSchema } from '@/types/update-auth-user';
+import { UpdateAuthUserRequest, updateAuthUserSchema } from '@/types/auth/update-auth-user';
 import { updateAuthUser } from '@/services/auth-service';
 import { parseValidationErrorArray } from '@/common/utils';
 import { useRouter } from 'next/router';
@@ -48,10 +48,10 @@ export default function UpdateAuthUserForm() {
         } catch (error: any) {
             if (parseValidationErrorArray(error?.response?.data)) {
                 for (const validationError of parseValidationErrorArray(error.response.data)) {
-                    showError(validationError.errorMessage)
+                    showError(validationError.errorMessage);
                 }
             } else {
-                showError(error?.message)
+                showError(error?.message);
             }
         }
     };

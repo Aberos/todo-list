@@ -1,7 +1,7 @@
 import { parseValidationErrorArray } from "@/common/utils";
 import { useThemeContext } from "@/context/theme-context";
 import { updateAuthUserPassword } from "@/services/auth-service";
-import { UpdateAuthUserPasswordRequest, updateAuthUserPasswordSchema } from "@/types/update-auth-user-password";
+import { UpdateAuthUserPasswordRequest, updateAuthUserPasswordSchema } from "@/types/auth/update-auth-user-password";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
@@ -31,10 +31,10 @@ export default function UpdateAuthUserPasswordForm({ onClose }: UpdateAuthUserPa
         } catch (error: any) {
             if (parseValidationErrorArray(error?.response?.data)) {
                 for (const validationError of parseValidationErrorArray(error.response.data)) {
-                    showError(validationError.errorMessage)
+                    showError(validationError.errorMessage);
                 }
             } else {
-                showError(error?.message)
+                showError(error?.message);
             }
         }
     };

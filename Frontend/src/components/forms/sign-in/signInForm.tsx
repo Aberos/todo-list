@@ -1,7 +1,7 @@
 import { parseValidationErrorArray } from "@/common/utils";
 import { useThemeContext } from "@/context/theme-context";
 import { signIn } from "@/services/auth-service";
-import { SignInRequest, signInSchema } from "@/types/sign-in";
+import { SignInRequest, signInSchema } from "@/types/auth/sign-in";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/router";
 import { Button } from "primereact/button";
@@ -46,10 +46,10 @@ export default function SignInForm() {
         } catch (error: any) {
             if (parseValidationErrorArray(error?.response?.data)) {
                 for (const validationError of parseValidationErrorArray(error.response.data)) {
-                    showError(validationError.errorMessage)
+                    showError(validationError.errorMessage);
                 }
             } else {
-                showError(error?.message)
+                showError(error?.message);
             }
         }
     };

@@ -1,7 +1,7 @@
 import { parseValidationErrorArray } from "@/common/utils";
 import { useThemeContext } from "@/context/theme-context";
 import { signUp } from "@/services/auth-service";
-import { SignUpRequest, signUpSchema } from "@/types/sign-up";
+import { SignUpRequest, signUpSchema } from "@/types/auth/sign-up";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/router";
 import { Button } from "primereact/button";
@@ -27,10 +27,10 @@ export default function SignUpForm() {
         } catch (error: any) {
             if (parseValidationErrorArray(error?.response?.data)) {
                 for (const validationError of parseValidationErrorArray(error.response.data)) {
-                    showError(validationError.errorMessage)
+                    showError(validationError.errorMessage);
                 }
             } else {
-                showError(error?.message)
+                showError(error?.message);
             }
         }
     };

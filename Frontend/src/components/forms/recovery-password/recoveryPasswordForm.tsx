@@ -1,7 +1,7 @@
 import { parseValidationErrorArray } from "@/common/utils";
 import { useThemeContext } from "@/context/theme-context";
 import { recoveryPassword } from "@/services/auth-service";
-import { RecoveryPasswordRequest, recoveryPasswordSchema } from "@/types/recovery-password";
+import { RecoveryPasswordRequest, recoveryPasswordSchema } from "@/types/auth/recovery-password";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/router";
 import { Button } from "primereact/button";
@@ -27,10 +27,10 @@ export default function RecoveryPasswordForm() {
         } catch (error: any) {
             if (parseValidationErrorArray(error?.response?.data)) {
                 for (const validationError of parseValidationErrorArray(error.response.data)) {
-                    showError(validationError.errorMessage)
+                    showError(validationError.errorMessage);
                 }
             } else {
-                showError(error?.message)
+                showError(error?.message);
             }
         }
     };
