@@ -45,7 +45,7 @@ export default function TaskList() {
             return;
 
         setShowModalCreateTask(false);
-
+        setSelectedId(null!);
         if (update) {
             filterTask(initialFilter);
         }

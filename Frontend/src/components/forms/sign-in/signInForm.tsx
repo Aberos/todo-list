@@ -41,6 +41,11 @@ export default function SignInForm() {
                     "auth",
                     JSON.stringify({ email: request.email, password: request.password }),
                 );
+            } else {
+                const localAuth = localStorage.getItem("auth");
+                if (localAuth) {
+                    localStorage.removeItem("auth");
+                }
             }
             router.push("/home");
         } catch (error: any) {
