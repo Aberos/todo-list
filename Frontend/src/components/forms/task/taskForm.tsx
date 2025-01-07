@@ -38,7 +38,7 @@ export default function TaskForm({ onClose, taskId }: TaskFormProps) {
                 } else {
                     showError('Tarefa não encontrada');
                 }
-            }).catch(error => {
+            }).catch(() => {
                 showError('Erro ao buscar tarefa');
             });
         }
