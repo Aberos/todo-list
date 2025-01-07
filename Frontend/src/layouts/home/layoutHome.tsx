@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { ReactNode, useEffect, useState } from "react";
-import styles from './LayoutHome.module.css'
 import Menu from "@/components/menu/menu";
 import { validateToken } from "@/services/auth-service";
 
@@ -27,14 +26,18 @@ export default function LayoutHome({ children }: Props) {
         validateAuth();
     }, []);
 
-    return (<>
-        {isAuth ? <Menu /> : <></>}
-        <div className={`w-full flex justify-center items-center p-3 ${isAuth ? styles.content : 'h-full'}`}>
-            {isAuth
-                ? children
-                : <ProgressSpinner />
-            }
-        </div>
-    </>
-    )
+    return (
+        <>
+            {isAuth && <Menu />}
+            <div
+                className={`flex flex-col ${isAuth ? 'h-[calc(100vh-64px)]' : 'h-full'
+                    } w-full justify-center items-center p-3`}
+                style={{
+                    marginTop: isAuth ? '64px' : '0', // ajuste conforme a altura do Menu
+                }}
+            >
+                {isAuth ? children : <ProgressSpinner />}
+            </div>
+        </>
+    );
 }

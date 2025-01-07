@@ -1,7 +1,7 @@
-import { parseValidationErrorArray } from "@/common/utils";
+import { parseValidationErrorArray } from "@/utils/utils";
 import { useThemeContext } from "@/context/theme-context";
 import { recoveryPassword } from "@/services/auth-service";
-import { RecoveryPasswordRequest, recoveryPasswordSchema } from "@/types/auth/recovery-password";
+import { RecoveryPasswordRequest, recoveryPasswordSchema } from "@/@types/auth/recovery-password";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/router";
 import { Button } from "primereact/button";

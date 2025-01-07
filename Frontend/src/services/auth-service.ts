@@ -1,9 +1,9 @@
 import api, { getHeaderToken } from "./api";
-import { RecoveryPasswordRequest } from "@/types/auth/recovery-password";
-import { SignInRequest, SignInResponse } from "@/types/auth/sign-in";
-import { SignUpRequest } from "@/types/auth/sign-up";
-import { UpdateAuthUserRequest } from "@/types/auth/update-auth-user";
-import { UpdateAuthUserPasswordRequest } from "@/types/auth/update-auth-user-password";
+import { RecoveryPasswordRequest } from "@/@types/auth/recovery-password";
+import { SignInRequest, SignInResponse } from "@/@types/auth/sign-in";
+import { SignUpRequest } from "@/@types/auth/sign-up";
+import { UpdateAuthUserRequest } from "@/@types/auth/update-auth-user";
+import { UpdateAuthUserPasswordRequest } from "@/@types/auth/update-auth-user-password";
 
 export const signIn = async (signInRequest: SignInRequest) => {
     return await api.post<SignInResponse>("/authentication/sign-in", signInRequest);

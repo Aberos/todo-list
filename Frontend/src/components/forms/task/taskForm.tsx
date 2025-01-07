@@ -1,7 +1,7 @@
-import { parseValidationErrorArray } from "@/common/utils";
+import { parseValidationErrorArray } from "@/utils/utils";
 import { useThemeContext } from "@/context/theme-context";
 import { createTask, getTask, updateTask } from "@/services/task-service";
-import { TaskRequest, taskSchema, taskStatusOptions } from "@/types/task/task";
+import { TaskRequest, taskSchema, taskStatusOptions } from "@/@types/task/task";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";

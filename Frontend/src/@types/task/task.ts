@@ -1,4 +1,4 @@
-import { z } from "@/common/zod-pt";
+import { z } from "@/utils/zod-pt";
 import { TaskStatus } from "@/enums/task-status";
 
 export const taskSchema = z.object({
@@ -17,6 +17,7 @@ export type TaskFilterRequest = {
 }
 
 export type TaskResponse = {
+    id: string;
     title: string;
     description: string | null;
     status: TaskStatus;
@@ -30,10 +31,9 @@ export type TaskFilterResponse = {
     data: TaskResponse[];
 }
 
-
 export const taskStatusOptions: any[] = [
     { label: 'Pendente', value: 0 },
     { label: 'Em Progresso', value: 1 },
-    { label: 'Completada', value: 2 },
+    { label: 'Finalizada', value: 2 },
     { label: 'Cancelada', value: 3 }
 ];

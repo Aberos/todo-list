@@ -1,6 +1,6 @@
 import { Card } from "primereact/card";
 import { ReactNode } from "react";
-import Layout from "@/components/layouts/default/layout";
+import Layout from "@/layouts/default/layout";
 import SignInForm from "@/components/forms/sign-in/signInForm";
 
 export default function Auth() {

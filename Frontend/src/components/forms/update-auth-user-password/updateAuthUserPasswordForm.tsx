@@ -1,7 +1,7 @@
-import { parseValidationErrorArray } from "@/common/utils";
+import { parseValidationErrorArray } from "@/utils/utils";
 import { useThemeContext } from "@/context/theme-context";
 import { updateAuthUserPassword } from "@/services/auth-service";
-import { UpdateAuthUserPasswordRequest, updateAuthUserPasswordSchema } from "@/types/auth/update-auth-user-password";
+import { UpdateAuthUserPasswordRequest, updateAuthUserPasswordSchema } from "@/@types/auth/update-auth-user-password";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";

@@ -1,40 +1,44 @@
-import { parseValidationErrorArray } from "@/common/utils";
+import { formatDate, parseValidationErrorArray } from "@/utils/utils";
 import TaskForm from "@/components/forms/task/taskForm";
 import { useThemeContext } from "@/context/theme-context";
-import { TaskStatus } from "@/enums/task-status";
-import { getFilteredListTask } from "@/services/task-service";
-import { TaskFilterRequest, TaskFilterResponse, TaskResponse, taskStatusOptions } from "@/types/task/task";
+import { deleteTask, getFilteredListTask } from "@/services/task-service";
+import { TaskFilterRequest, TaskFilterResponse, TaskResponse } from "@/@types/task/task";
 import { SortOrder } from "primereact/api";
-import { Button } from "primereact/button";
 import { Card } from "primereact/card";
 import { Column } from "primereact/column";
 import { DataTable, DataTableStateEvent } from "primereact/datatable";
 import { Dialog } from "primereact/dialog";
-import { InputText } from "primereact/inputtext";
-import { MultiSelect } from "primereact/multiselect";
 import { useEffect, useState } from "react";
+import TaskListHeader from "./header/taskListHeader";
+import TaskListStatus from "./status/taskListStatus";
+import TaskListOptions from "./options/taskListOptions";
 
 export default function TaskList() {
-    const { showError } = useThemeContext();
-    const [pageSize] = useState<number>(10);
-    const [search, setSearch] = useState<string>(null!);
-    const [page, setPage] = useState<number>(1);
-    const [status, setStatus] = useState<TaskStatus[]>([]);
+    const { showError, showSuccess } = useThemeContext();
     const [showModalCreateTask, setShowModalCreateTask] = useState<boolean>(false);
     const [selectedId, setSelectedId] = useState<string>(null!);
     const [taskFilter, setTaskFilter] = useState<TaskFilterResponse>(null!);
     const [loadingTask, setLoadingTask] = useState<boolean>(false);
+
+    const initialFilter: TaskFilterRequest = {
+        search: '',
+        status: [],
+        page: 1,
+        pageSize: 10
+    };
+    const [filter, setFilter] = useState<TaskFilterRequest>(initialFilter);
+
     const initialParams: DataTableStateEvent = {
         first: 0,
-        rows: pageSize,
+        rows: initialFilter.pageSize,
         page: 1,
         sortField: '',
         sortOrder: SortOrder.UNSORTED,
         multiSortMeta: [],
         filters: {}
     };
-
     const [tableParams, setTableParams] = useState<DataTableStateEvent>(initialParams);
+
 
     const handleCloseModalTask = (update: boolean) => {
         if (!showModalCreateTask)
@@ -43,22 +47,15 @@ export default function TaskList() {
         setShowModalCreateTask(false);
 
         if (update) {
-            getTasks();
+            filterTask(initialFilter);
         }
     };
 
-    const getTasks = async () => {
+    async function filterTask(value: TaskFilterRequest) {
         try {
             setLoadingTask(true);
-            const filter: TaskFilterRequest = {
-                search: search,
-                status: status,
-                page: page,
-                pageSize: pageSize
-            };
-
-            const response = await getFilteredListTask(filter);
-
+            setFilter(value);
+            const response = await getFilteredListTask(value);
             if (response.data) {
                 setTaskFilter(response.data);
             } else {
@@ -77,45 +74,67 @@ export default function TaskList() {
         }
     };
 
+    async function handleDeleteTask(task: TaskResponse) {
+        try {
+            setLoadingTask(true);
+            await deleteTask(task.id);
+            showSuccess(`Tarefa ${task.title} foi removida!`);
+            filterTask(filter);
+        } catch (error: any) {
+            if (parseValidationErrorArray(error?.response?.data)) {
+                for (const validationError of parseValidationErrorArray(error.response.data)) {
+                    showError(validationError.errorMessage);
+                }
+            } else {
+                showError(error?.message);
+            }
+        } finally {
+            setLoadingTask(false);
+        }
+    };
+
     const handlePage = (event: DataTableStateEvent) => {
         setTableParams(event);
         const page = (event.page ?? 0) + 1;
-        setPage(page);
+        filterTask({
+            page: page,
+            pageSize: filter.pageSize,
+            search: filter.search,
+            status: filter.status
+        });
     };
 
-    const handleSearch = () => {
-        getTasks();
-    }
+    const handleFilter = (event: TaskFilterRequest) => {
+        filterTask(event);
+    };
 
-    const handleStatus = () => {
-        getTasks();
-    }
+    const handleEditTask = (task: TaskResponse) => {
+        setSelectedId(task.id);
+        setShowModalCreateTask(true);
+    };
 
     useEffect(() => {
-        getTasks();
+        filterTask(initialFilter);
     }, []);
 
     const headerCard = () => {
         return (
-            <div className="w-full flex flex-wrap items-center p-4 justify-center md:justify-between">
-                <h2>Tarefas</h2>
-                <div className="flex flex-wrap items-center justify-center md:justify-end">
-                    <MultiSelect value={status} onChange={(e) => setStatus(e.value)} onHide={handleStatus} options={taskStatusOptions} optionLabel="label"
-                        placeholder="Selecione os status" className="w-full md:flex-1" />
-
-                    <div className="p-inputgroup flex-1 md:ml-1">
-                        <InputText placeholder="Buscar" value={search} onChange={(e => setSearch(e.target.value))} onBlur={handleSearch} />
-                        <Button icon="pi pi-search" className="p-button-primary" />
-                    </div>
-                    <Button
-                        className="md:ml-2"
-                        icon="pi pi-plus"
-                        label="Adicionar"
-                        onClick={() => setShowModalCreateTask(true)}
-                    />
-                </div>
-            </div>
+            <TaskListHeader onAdd={() => setShowModalCreateTask(true)}
+                filter={filter}
+                onFilter={handleFilter} />
         );
+    };
+
+    const statusBodyTemplate = (task: TaskResponse) => {
+        return <TaskListStatus task={task} />;
+    };
+
+    const createdDateBodyTemplate = (task: TaskResponse) => {
+        return formatDate(task.createdDate);
+    };
+
+    const optionsBodyTemplate = (task: TaskResponse) => {
+        return <TaskListOptions task={task} onEdit={handleEditTask} onDelete={handleDeleteTask} />;
     };
 
     return (<div className="w-full">
@@ -132,10 +151,10 @@ export default function TaskList() {
                     onPage={handlePage}
                     loading={loadingTask}
                 >
-                    <Column field="title" header="Titulo"></Column>
-                    <Column field="status" header="Status"></Column>
-                    <Column field="createdDate" header="Data"></Column>
-                    <Column field="id" header="Opções"></Column>
+                    <Column field="title" header="Titulo" style={{ width: '40%' }}></Column>
+                    <Column field="createdDate" header="Data" body={createdDateBodyTemplate} style={{ width: '20%' }}></Column>
+                    <Column field="status" header="Status" alignHeader={"center"} body={statusBodyTemplate} style={{ width: '20%' }}></Column>
+                    <Column field="id" header="Opções" alignHeader={"center"} body={optionsBodyTemplate} style={{ width: '20%' }}></Column>
                 </DataTable>
                 : <></>}
         </Card>

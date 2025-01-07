@@ -1,4 +1,4 @@
-import { TaskFilterRequest, TaskFilterResponse, TaskRequest, TaskResponse } from "@/types/task/task";
+import { TaskFilterRequest, TaskFilterResponse, TaskRequest, TaskResponse } from "@/@types/task/task";
 import api, { getHeaderToken } from "./api";
 
 export const createTask = async (taskRequest: TaskRequest) => {

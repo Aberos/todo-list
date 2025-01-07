@@ -1,5 +1,5 @@
 import UpdateAuthUserForm from "@/components/forms/update-auth-user/updateAuthUserForm";
-import LayoutHome from "@/components/layouts/home/layoutHome";
+import LayoutHome from "@/layouts/home/layoutHome";
 import { Card } from "primereact/card";
 import { ReactNode } from "react";
 

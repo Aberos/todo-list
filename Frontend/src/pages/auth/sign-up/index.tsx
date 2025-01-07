@@ -1,5 +1,5 @@
 import SignUpForm from "@/components/forms/sign-up/signUpForm";
-import Layout from "@/components/layouts/default/layout";
+import Layout from "@/layouts/default/layout";
 import { Card } from "primereact/card";
 import { ReactNode } from "react";
 

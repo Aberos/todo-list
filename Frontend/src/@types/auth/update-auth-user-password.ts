@@ -1,4 +1,4 @@
-import { z } from "@/common/zod-pt";
+import { z } from "@/utils/zod-pt";
 
 export const updateAuthUserPasswordSchema = z.object({
     password: z.string().min(6),

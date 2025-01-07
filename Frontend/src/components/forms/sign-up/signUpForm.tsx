@@ -1,7 +1,7 @@
-import { parseValidationErrorArray } from "@/common/utils";
+import { parseValidationErrorArray } from "@/utils/utils";
 import { useThemeContext } from "@/context/theme-context";
 import { signUp } from "@/services/auth-service";
-import { SignUpRequest, signUpSchema } from "@/types/auth/sign-up";
+import { SignUpRequest, signUpSchema } from "@/@types/auth/sign-up";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/router";
 import { Button } from "primereact/button";
