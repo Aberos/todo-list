@@ -60,7 +60,7 @@ public class TaskController : BaseController
     }
 
     [HttpDelete("{taskId}")]
-    public async Task<ActionResult> Create(string taskId, CancellationToken cancellationToken)
+    public async Task<ActionResult> Delete(string taskId, CancellationToken cancellationToken)
     {
         try
         {
